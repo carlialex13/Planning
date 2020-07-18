@@ -7,6 +7,13 @@ use DateInterval;
 
 class Calendrier
 {    
+
+    public function Day(): DateTime
+    {
+        return new DateTime();
+    }
+
+
     /**
      * Premier jour de l'année
      *
