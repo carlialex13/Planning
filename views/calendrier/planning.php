@@ -1,4 +1,6 @@
+<?php
 
+?>
 
         Jours de la Semaine <?= $test->FormatWeek(); ?>
         <table class="table table-dark">

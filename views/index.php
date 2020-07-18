@@ -14,9 +14,8 @@ try{
 
 $test = new Calendrier();
 
-$firstDayWeek = $month->getFirstDayOfWeek();
-$lastDayOfWeek = $month->getLastDayOfWeek();
-$interval = $month->getIntervall();
+$link = $router->url('home');
+$url = $router->url('home', ['week' => $_GET['week'], 'month' => $_GET['month']]);
 
 ?>
 
@@ -24,8 +23,8 @@ $interval = $month->getIntervall();
 <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
    <h1><?= $month->getDay()->format('F');?></h1>
   <div>
-        <a href="/Calendar/public/index.php?week=<?= $month->previousWeek()->week ?>&month=<?= $month->previousWeek()->month ?>" class="btn btn-primary">&lt</a>
-        <a href="/Calendar/public/index.php?week=<?= $month->nextWeek()->week ?>&month=<?= $month->nextWeek()->month ?>" class="btn btn-primary">&gt</a>
+        <?= $month->previousWeek($url); ?>
+        <a href="/views/calendrier/planning.php?week=<?= $month->previousWeek()->week ?>&month=<?= $month->previousWeek()->month ?>" class="btn btn-primary">&gt</a>
   </div>
 </div>
 
