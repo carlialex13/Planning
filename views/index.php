@@ -13,8 +13,9 @@ try{
   };
 
   $pagination = new Paginated();
-  list($week) = $pagination->nextLink();
-  $link = $router->url('planning', ['week' => $week]);
+  $nextWeek = $router->url('planning', ['week' => $pagination->nextLink()]);
+  $previousWeek = $router->url('planning', ['week' => $pagination->previousLink()]);
+
  
 
 ?>
@@ -28,6 +29,7 @@ try{
 <?php require '../views/calendrier/planning.php'; ?>
 
 <div class="d-flex justify-content-between my-4">
-    <a href="<?= $link ?>" class="btn btn-primary">&laquo; Semaine Suivante</a>
+    <a href="<?= $previousWeek ?>" class="btn btn-primary">&laquo; Semaine Précédente</a>
+    <a href="<?= $nextWeek ?>" class="btn btn-primary">&laquo; Semaine Suivante</a>
     
 </div>

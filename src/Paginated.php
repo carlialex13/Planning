@@ -7,11 +7,11 @@ use DateTime;
 
 class Paginated
 {
-    public function previousLink(string $link): ?string
+    public function previousLink()
     {
-        return <<<HTML
-            <a href="{$link}" class="btn btn-primary">&laquo; Page Précédente</a>
-HTML;
+        $week = new DateTime();
+        $week = $week->modify("previous week")->format('W');
+        return $week;
     }
 
     public function nextLink()
@@ -19,7 +19,7 @@ HTML;
         $week = new DateTime();
         $week = $week->add(new DateInterval('P01W'))->format('W');
         
-        return [$week];
+        return $week;
     }
 
 }
