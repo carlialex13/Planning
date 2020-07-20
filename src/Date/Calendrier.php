@@ -4,13 +4,14 @@ namespace App\Date;
 
 use DateTime;
 use DateInterval;
+use DateTimeZone;
 
 class Calendrier
 {    
 
     public function Day(): DateTime
     {
-        return new DateTime();
+        return new DateTime(' ',  new DateTimeZone('Europe/Paris'));
     }
 
 
@@ -50,20 +51,25 @@ class Calendrier
      * @param  int $data
      * @return DateTime
      */
-    public function Weeks (): DateTime
+    public function addWeeks (): DateTime
     {
         return $this->FirstDayYear()->add(new DateInterval('P01W'));
     }
 
+    public function Week(): string
+    {
+        return $this->day()->format('W');
+    }
+
     public function FormatWeek(): string
     {
-        return $this->Weeks()->format('W');
+        return $this->addWeeks()->format('W');
     }
 
     public function DayOfWeek(): string
     {
         for($i = 0 ; $i < 7; $i++){
-            $firstDays = $this->Weeks()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('l d');
+            $firstDays = $this->addWeeks()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('l d');
             echo "<th> $firstDays </th>";
         }      
         return $firstDays;

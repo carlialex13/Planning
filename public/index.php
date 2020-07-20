@@ -5,6 +5,7 @@ use App\Router;
 require '../vendor/autoload.php';
 
 define('DEBUG_TIME', microtime(true));
+setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
 
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
@@ -15,5 +16,5 @@ $whoops->register();
 $router = new Router(dirname(__DIR__) . ('/views'));
 $router
     ->get('/','/index','home')
-    ->get('/calendrier/planning.php?week=[i:week]&month=[*:month]', '/calendrier/planning', 'planning')
+    ->get('/calendrier/planning.php?week=[i:week]', '/calendrier/planning', 'planning')
     ->run();

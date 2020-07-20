@@ -2,3 +2,6 @@
         <?= $month->previousWeek($url); ?>
         <a href="/views/calendrier/planning.php?week=<?= $month->previousWeek()->week ?>&month=<?= $month->previousWeek()->month ?>" class="btn btn-primary">&gt</a>
   </div>
+
+
+  $router->url('planning', ['week' => $calendrier->getWeek(), 'month' => $getMonth])
