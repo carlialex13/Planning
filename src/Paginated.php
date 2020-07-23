@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Date\Calendrier;
 use DateInterval;
 use DateTime;
 
@@ -9,8 +10,8 @@ class Paginated
 {
     public function previousLink()
     {
-        $week = new DateTime();
-        $week = $week->modify("previous week")->format('W');
+        $week = new Calendrier();
+        $week = $week->day()->modify("previous week")->format('W');
         return $week;
     }
 

@@ -4,74 +4,103 @@ namespace App\Date;
 
 use DateTime;
 use DateInterval;
-use DateTimeZone;
+
+    
 
 class Calendrier
-{    
+{   
 
-    public function Day(): DateTime
+    private $week;
+    private $month;
+    private $year;
+
+
+    public function __construct(?int $week=NULL, ?int $month=NULL, ?int $year=NULL)
     {
-        return new DateTime(' ',  new DateTimeZone('Europe/Paris'));
+        if($week === NULL || $week < 1 || $week > 54){
+            $week = intval(date('W'));
+        }
+
+        if($month === NULL || $month < 1 || $month > 12){
+            $month = intval(date('m'));
+          }
+    
+        if($year === NULL){
+            $year = intval(date ('Y'));
+          }
+    
+        if($year < 1970) {
+            throw new \Exception ("L'année $year est inférieur à 1970");
+          }
+        
+        $this->week = $week;
+        $this->month = $month;
+        $this->year = $year;   
     }
 
+    public function day(?int $week=NULL, ?int $month=NULL, ?int $year=NULL): DateTime
+    {   
+        if($month === NULL || $month <1 || $month > 12 && $year === NULL || $year <1970 && $week === NULL || $week < 1 || $week > 54){
+            $week = intval(date('W'));
+            $month = intval(date('m'));
+            $year = intval(date('Y'));
+            $day = intval(date('d'));
+            
+        }
+        return new DateTime("{$this->year}-{$this->month}-$day");
+        
+    }
 
-    /**
-     * Premier jour de l'année
-     *
-     * @return DateTime
-     */
-    public function FirstDayYear (): DateTime
+    public function firstDayYear(): DateTime
     {
         return new DateTime('2020-01-01');
     }
     
-    /**
-     * Dernier jour de l'année
-     *
-     * @return DateTime
-     */
-    public function LastDayYear(): DateTime
+    public function lastDayYear(): DateTime
     {
         return new DateTime('2020-12-31');
     }
     
-    /**
-     * Nombre de jour dans l'annnée
-     *
-     * @return DateInterval
-     */
-    public function NumberDayYear (): DateInterval
+    public function numberDayYear(): DateInterval
     {
         return date_diff($this->FirstDayYear(), $this->LastDayYear());
     }
     
-    /**
-     * Weeks
-     *
-     * @param  int $data
-     * @return DateTime
-     */
-    public function addWeeks (): DateTime
+    
+    public function addWeek($int): int
     {
-        return $this->FirstDayYear()->add(new DateInterval('P01W'));
+		
+        return $this->day()->modify('+' . (($int - $int)  +1 ) . 'week')->format('W');
     }
 
-    public function Week(): string
+    public function subWeek($int): string
+    {
+        
+		// to do : condition si semaine < 1 et si semaine > 53
+        return $this->day()->modify('-' . $int . 'week')->format('W');
+    }
+
+    public function week(): string
     {
         return $this->day()->format('W');
     }
 
-    public function FormatWeek(): string
+    /* public function formatWeek(): string
     {
-        return $this->addWeeks()->format('W');
-    }
+        return $this->addWeek()->format('W');
+    } */
 
-    public function DayOfWeek(): string
+    public function dayOfWeek(): string
     {
         for($i = 0 ; $i < 7; $i++){
-            $firstDays = $this->addWeeks()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('l d');
+            $firstDays = $this->day()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('l d');
             echo "<th> $firstDays </th>";
         }      
         return $firstDays;
+    }
+
+    public function nextWeek()
+    {
+
     }
 }
