@@ -40,7 +40,6 @@ class Calendrier
     public function day(): DateTime
     {   
         return new DateTime();
-        
     }
 
     public function firstDayYear(): DateTime
@@ -70,42 +69,7 @@ class Calendrier
             }
         }
         return $week;  
-    }
-    
-    
-    public function addWeek(int $day): DateTime
-    {
-        return $this->formatDay()->modify('next monday');
-    }
-
-    public function subWeek($int): string
-    {
-        
-		// to do : condition si semaine < 1 et si semaine > 53
-        return $this->day()->modify('-' . $int . 'week')->format('W'); 
-    }
-
-    public function week(): string
-    {
-        return $this->day()->format('W');
-    }
-
-    /* public function formatWeek(): string
-    {
-        return $this->addWeek()->format('W');
-    } */
-
-    public function dayOfWeek(): string
-    {
-        for($i = 0 ; $i < 7; $i++){
-            $firstDays = $this->day()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('d-m-y');
-            echo "<th> $firstDays </th>";
-        }      
-        return $firstDays;
-    }
-
-    public function nextWeek()
-    {
-
+        /* si le jour d'ajourdh'ui === Lundi alors ajoute directement 7 * $i
+        sinon prends le lundi et ajoute 7 * $i */
     }
 }

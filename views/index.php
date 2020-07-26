@@ -20,9 +20,6 @@ $form = new Form($user, $errors);
 
 $pagination = new Paginated();
 $getWeek = explode("=",$_SERVER['REQUEST_URI'])[1] ?? (new DateTime())->format('d');
-
-$nextWeek = $router->url('planning', ['day' => $calendar->addWeek($getWeek)->format('d')]);
-$previousWeek = $router->url('planning', ['day' => $calendar->subWeek($getWeek)]);
 ?>
 
 <h1>Acceuil</h1>
@@ -49,10 +46,7 @@ $previousWeek = $router->url('planning', ['day' => $calendar->subWeek($getWeek)]
             </tbody>
         </table>
 
-<div class="d-flex justify-content-between my-4">
-    <a href="<?= $previousWeek ?>" class="btn btn-primary">&laquo; Semaine Précédente</a>
-    <a href="<?= $nextWeek ?>" class="btn btn-primary">Semaine Suivante&laquo;</a>
-</div>
+
 
 
 
