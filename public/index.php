@@ -16,5 +16,5 @@ $whoops->register();
 $router = new Router(dirname(__DIR__) . ('/views'));
 $router
     ->get('/','/index','home')
-    ->get('/calendrier/planning/week=[i:week]', '/index', 'planning')
+    ->get('/calendrier/planning/day=[i:day]', '/index', 'planning')
     ->run();

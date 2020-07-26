@@ -4,8 +4,7 @@ namespace App\Date;
 
 use DateTime;
 use DateInterval;
-
-    
+use DateTimeZone;
 
 class Calendrier
 {   
@@ -38,16 +37,9 @@ class Calendrier
         $this->year = $year;   
     }
 
-    public function day(?int $week=NULL, ?int $month=NULL, ?int $year=NULL): DateTime
+    public function day(): DateTime
     {   
-        if($month === NULL || $month <1 || $month > 12 && $year === NULL || $year <1970 && $week === NULL || $week < 1 || $week > 54){
-            $week = intval(date('W'));
-            $month = intval(date('m'));
-            $year = intval(date('Y'));
-            $day = intval(date('d'));
-            
-        }
-        return new DateTime("{$this->year}-{$this->month}-$day");
+        return new DateTime();
         
     }
 
@@ -63,21 +55,34 @@ class Calendrier
     
     public function numberDayYear(): DateInterval
     {
-        return date_diff($this->FirstDayYear(), $this->LastDayYear());
+        $interval = $this->firstDayYear()->diff($this->lastDayYear());
+        return $interval;
+        
+    }
+
+    public function formatDay(): string
+    {   
+        $weeks = [($this->numberDayYear()->days) / 7];
+        foreach($weeks as $week){
+            for($i = 0 ; $i < 7; $i++){
+                $week = $this->day()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('d-m-Y');
+                echo "<th> $week </th>";
+            }
+        }
+        return $week;  
     }
     
     
-    public function addWeek($int): int
+    public function addWeek(int $day): DateTime
     {
-		
-        return $this->day()->modify('+' . (($int - $int)  +1 ) . 'week')->format('W');
+        return $this->formatDay()->modify('next monday');
     }
 
     public function subWeek($int): string
     {
         
 		// to do : condition si semaine < 1 et si semaine > 53
-        return $this->day()->modify('-' . $int . 'week')->format('W');
+        return $this->day()->modify('-' . $int . 'week')->format('W'); 
     }
 
     public function week(): string
@@ -93,7 +98,7 @@ class Calendrier
     public function dayOfWeek(): string
     {
         for($i = 0 ; $i < 7; $i++){
-            $firstDays = $this->day()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('l d');
+            $firstDays = $this->day()->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('d-m-y');
             echo "<th> $firstDays </th>";
         }      
         return $firstDays;
