@@ -2,24 +2,24 @@
 
 namespace App;
 
-use App\Date\Calendrier;
-use DateInterval;
 use DateTime;
 
 class Paginated
 {
-    public function previousLink()
+    
+    
+    public function previousWeek(int $day,int $month,int $year): DateTime
     {
-        $week = new Calendrier();
-        $week = $week->day()->modify("previous week")->format('W');
+        $week = new DateTime("{$day}-{$month}-{$year}");
+        $week = $week->modify('previous monday');
+        
         return $week;
     }
 
-    public function nextLink()
+    public function nextWeek(int $day,int $month, $year): DateTime
     {
-        $week = new DateTime();
-        $week = $week->add(new DateInterval('P01W'))->format('W');
-        
+        $week = new DateTime("{$day}-{$month}-{$year}");
+        $week = $week->modify('next monday');
         return $week;
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Date;
 
+use App\Parse;
 use DateTime;
 use DateInterval;
-use DateTimeZone;
 
 class Calendrier
 {   
@@ -37,9 +37,10 @@ class Calendrier
         $this->year = $year;   
     }
 
-    public function day(): DateTime
+    public function day(int $day, int $month, int $year): DateTime
     {   
-        return new DateTime();
+        $day = new DateTime("$day-$month-$year");
+        return $day;
     }
 
     public function firstDayYear(): DateTime
