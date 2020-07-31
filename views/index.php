@@ -27,7 +27,7 @@ $previousLink = $link->previousWeek($parse[0], $parse[1], $parse[2]);
 $nextWeek = $router->url('planning', ['day' => $nextLink->format('d'), 'month' => $nextLink->format('m'), 'year' => $nextLink->format('Y')]);
 $previousWeek = $router->url('planning', ['day' => $previousLink->format('d'), 'month' => $previousLink->format('m'), 'year' => $previousLink->format('Y')]);
 
-$month = $calendar->Day($parse[0], $parse[1], $parse[2])->format('F');
+$month = $calendar->Day($parse[0], $parse[1], $parse[2])->format('d-m-Y');
 $week = $calendar->Day($parse[0], $parse[1], $parse[2])->format('W');
 
 
@@ -35,14 +35,14 @@ $week = $calendar->Day($parse[0], $parse[1], $parse[2])->format('W');
 
 <h1>Acceuil</h1>
 <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
-   <h1> Mois : <?= $month; ?> </h1>
+   <h1> Date : <?= $month; ?> </h1>
    <h1> Semaine : <?= $week; ?> </h1>
 </div>
 
 <table class="table ">
             <thead>
                 <tr>
-                    <td><?= $calendar->formatDay(); ?></td>
+                    <td><?= $calendar->formatDay($parse[0], $parse[1], $parse[2]); ?></td>
                 </tr>
             </thead>
             <tbody>
