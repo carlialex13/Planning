@@ -17,4 +17,5 @@ $router = new Router(dirname(__DIR__) . ('/views'));
 $router
     ->get('/','/index','home')
     ->get('/calendrier/planning/day=[i:day]&month=[i:month]&year=[i:year]','/index','planning')
+    ->get('/formulaire', '/user/form', 'formulaire')
     ->run();

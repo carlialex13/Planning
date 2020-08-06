@@ -5,6 +5,7 @@ namespace App\Date;
 use App\Parse;
 use DateTime;
 use DateInterval;
+use DatePeriod;
 
 class Calendrier
 {   
@@ -16,6 +17,7 @@ class Calendrier
 
     public function __construct(?int $week=NULL, ?int $month=NULL, ?int $year=NULL)
     {
+
         if($week === NULL || $week < 1 || $week > 54){
             $week = intval(date('W'));
         }
@@ -45,14 +47,31 @@ class Calendrier
 
     public function firstDayYear(): DateTime
     {
-        return new DateTime('2020-01-01');
+        return new DateTime('first day of this year');
     }
     
     public function lastDayYear(): DateTime
     {
-        return new DateTime('2020-12-31');
+        return new DateTime('last day of this year');
     }
-    
+
+    public function dayOfWeek(?int $day, ?int $month, ?int $year)
+    {
+        if($_SERVER['REQUEST_URI'] === '/'){
+            $start = new DateTime();
+            $start = $start->modify('monday this week');
+        } else {
+            $start  = new DateTime("$day-$month-$year");
+        };
+        
+        $end  = (clone $start)->modify('monday next week');
+        $days = new DatePeriod($start, new DateInterval('P1D'), $end);
+        foreach ($days as $day) {
+                echo "<th class=" . $day->format('d-m-Y') . " >" . $day->format('d-m-Y') . "</th>";
+                $this->day = $day;   
+            } 
+    }
+
     public function numberDayYear(): DateInterval
     {
         $interval = $this->firstDayYear()->diff($this->lastDayYear());
@@ -63,24 +82,35 @@ class Calendrier
     public function formatDay(int $day, int $month, int $year): string
     {   
         $weeks = [($this->numberDayYear()->days) / 7];
+        
+        
         if($this->day($day, $month, $year)->format('d-m-Y') === $this->day($day, $month, $year)->modify('monday this week')->format('d-m-Y')){
             foreach($weeks as $week){
                 for($i = 0 ; $i < 7; $i++){
+                    $week = [];
                     $week = $this->day($day, $month, $year)->add(new DateInterval('P0' . $i . 'D'))->format('d-m-Y');
-                    echo '<th>' . $week . '</th>';
+                    echo $week;    
                 }
-            }
+                dd($week);
+            }    
             return $week; 
         } else {
             foreach($weeks as $week){
                 for($i = 0 ; $i < 7; $i++){
                     $week = $this->day($day, $month, $year)->modify('last monday')->add(new DateInterval('P0' . $i . 'D'))->format('d-m-Y');
                     echo '<th>' . $week . '</th>';
-                }
+                }          
             }
-            return $week;
-        }
-        /* si le jour d'ajourdh'ui === Lundi alors ajoute directement 7 * $i
-        sinon prends le lundi et ajoute 7 * $i */
+            return $week;            
+        }      
+        
+    }
+
+    /**
+     * Get the value of day
+     */ 
+    public function getDay()
+    {
+        return $this->day;
     }
 }

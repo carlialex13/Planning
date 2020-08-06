@@ -1,5 +1,4 @@
 <?php
-
 use App\HTML\Form;
 use App\Paginated;
 use App\Data\Connection;
@@ -26,40 +25,41 @@ $previousLink = $link->previousWeek($parse[0], $parse[1], $parse[2]);
 
 $nextWeek = $router->url('planning', ['day' => $nextLink->format('d'), 'month' => $nextLink->format('m'), 'year' => $nextLink->format('Y')]);
 $previousWeek = $router->url('planning', ['day' => $previousLink->format('d'), 'month' => $previousLink->format('m'), 'year' => $previousLink->format('Y')]);
+$formLink = $router->url('formulaire');
 
 $month = $calendar->Day($parse[0], $parse[1], $parse[2])->format('d-m-Y');
 $week = $calendar->Day($parse[0], $parse[1], $parse[2])->format('W');
-
-
 ?>
 
-<h1>Acceuil</h1>
-<div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
-   <h1> Date : <?= $month; ?> </h1>
-   <h1> Semaine : <?= $week; ?> </h1>
+<div class="d-flex flex-row align-items-center justify-content-between m-3">
+   <p class="font-weight-bold"> Date: <?= $month; ?> </p>
+   <p class="font-weight-bold"> Semaine : <?= $week; ?> </p>
 </div>
 
-<table class="table ">
+<table class="table">
             <thead>
                 <tr>
-                    <td><?= $calendar->formatDay($parse[0], $parse[1], $parse[2]); ?></td>
+                    <td>
+                        <?= $calendar->dayOfWeek($parse[0], $parse[1], $parse[2])?>
+                    </td>
                 </tr>
             </thead>
+            
             <tbody>
-                <?php foreach($user as $username ): ?>
+                <?php foreach($user as $username): ?>
                     <tr>
                         <td><?= $username->getUsername(); ?></td>
-                        <?php for($i = 0; $i < 7 ; $i++): ?>
-                            <td> <button class="btn btn-primary"></button>
-                        <?php endfor; ?>                      
+                            <?php for($i = 0; $i < 7 ; $i++): ?>
+                                <td class="<?= $username->getUsername() ?>"> <a href="<?= $formLink; ?>" class="btn btn-primary btn-lg font-weight-lighter" style="width: 6rem;" tabindex="-1" role="button" aria-disabled="true">Non Plannifié</a> </td>
+                            <?php endfor; ?>                      
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                <?php endforeach; ?> 
+            </tbody>  
+</table>
 
 <div class="d-flex justify-content-between my-4">
-    <a href="<?= $previousWeek ?>" class="btn btn-primary ml-auto">&laquo;Page précédente </a>
-    <a href="<?= $nextWeek ?>" class="btn btn-primary ml-auto">Page suivante &raquo;</a>
+    <a href="<?= $previousWeek ?>" class="btn btn-primary">&laquo;Page précédente </a>
+    <a href="<?= $nextWeek ?>" class="btn btn-primary">Page suivante &raquo;</a>
 </div>
 
 

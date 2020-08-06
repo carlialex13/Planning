@@ -24,12 +24,12 @@ class Form
      */
     public function input(string $key, string $label): string
     {
-        $value = $this->getValue($key);
+        /*$value = $this->getValue($key);*/
         $type = $key === "password" ? "password" : "text";
         return <<<HTML
             <div class="form-group">
                 <label for="fields{$key}">{$label}</label>
-                    <input type="{$type}" id="field{$key}" class ="{$this->getInputClass($key)}" name = "{$key}" value ="{$value}" required>
+                    <input type="{$type}" id="field{$key}" class ="{$this->getInputClass($key)}" name = "{$key}" value ="{$key}" required>
                     {$this->getErrorFeedBack($key)};
             </div>
 HTML;

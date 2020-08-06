@@ -7,6 +7,7 @@ class Month
     public $year;
     public $month;
     public $week;
+    public $day;
 
     /**
      * Get the value of year
@@ -64,6 +65,26 @@ class Month
     public function setWeek($week): self
     {
         $this->week = $week;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of day
+     */ 
+    public function getDay(): ?int
+    {
+        return $this->day;
+    }
+
+    /**
+     * Set the value of day
+     *
+     * @return  self
+     */ 
+    public function setDay($day): self
+    {
+        $this->day = $day;
 
         return $this;
     }
